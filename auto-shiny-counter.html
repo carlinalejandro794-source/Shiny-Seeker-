@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f1a1f">
+<meta name="theme-color" content="#0b0820">
 <title>Auto Shiny Counter</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23140708'/%3E%3Cpath d='M50 8 L58 42 L92 50 L58 58 L50 92 L42 58 L8 50 L42 42Z' fill='%23ff4d2e'/%3E%3Cpath d='M78 14 L81 24 L91 27 L81 30 L78 40 L75 30 L65 27 L75 24Z' fill='%23ffb02e'/%3E%3C/svg%3E">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--bg:#0f1a1f;--card:#18262d;--line:#25363f;--teal:#5fd4e6;--tealD:#0e7c86;--txt:#eaf6f8;--mut:#8fb0b8;--red:#e57373;--green:#22c55e}
+:root{--bg:#070512;--card:rgba(24,18,52,.72);--line:rgba(150,120,255,.28);--teal:#7ee8ff;--tealD:#6d4bd8;--txt:#f2eeff;--mut:#b4a8d8;--red:#e57373;--green:#22c55e}
 html,body{overflow-x:clip;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Roboto,sans-serif}
 body{min-height:100vh}
 .top{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#123038;border-bottom:1px solid var(--line)}
@@ -86,16 +86,51 @@ h3{font-size:16px;color:var(--mut);margin:22px 0 10px}
 .chip.on{background:#f59e0b;border-color:#f59e0b;color:#1a1000;font-weight:700}
 .mode{display:flex;gap:8px}.mode button{flex:1;padding:12px;border-radius:12px;background:#0f1a1f;border:1px solid var(--line);color:var(--txt);font-size:15px;font-weight:600}
 .mode button.on{background:var(--tealD);border-color:var(--tealD);color:#fff}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+html{background:#070512}
+body{background:radial-gradient(ellipse at 15% 20%,rgba(142,68,255,.35),transparent 55%),radial-gradient(ellipse at 85% 35%,rgba(255,70,170,.22),transparent 50%),radial-gradient(ellipse at 50% 90%,rgba(40,120,255,.28),transparent 55%),#070512;background-attachment:fixed}
+.top{background:rgba(16,10,40,.7)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.hcard,.tc,.empty,.list .item,.dex div{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.hcard{box-shadow:0 0 40px rgba(126,232,255,.15),0 8px 24px rgba(0,0,0,.5)!important}
+.count{text-shadow:0 0 18px rgba(126,232,255,.55)}
+.statusbar{background:linear-gradient(90deg,#5b3bd1,#b03ba8)!important}
+.fab{background:linear-gradient(135deg,#6d4bd8,#b03ba8)!important}
+.pill{background:rgba(109,75,216,.25)!important}
+input,select{background:rgba(7,5,18,.7)!important}
+.start{background:linear-gradient(135deg,#7c4dff,#d24bb5)!important;color:#fff!important;box-shadow:0 0 20px rgba(124,77,255,.45)!important}
+.stop{background:linear-gradient(135deg,#ff5a6e,#c2185b)!important;color:#fff!important}
+.plus{background:linear-gradient(135deg,#3ee6ff,#7c4dff)!important;color:#fff!important}
+.minus{background:linear-gradient(135deg,#ff6b8a,#c2185b)!important}
+.tpage{background:radial-gradient(ellipse at 20% 15%,rgba(142,68,255,.35),transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(40,120,255,.28),transparent 55%),#070512!important}
+.sheet>div{background:rgba(22,15,50,.97)!important;border-top:1px solid var(--line)}
+.info{background:rgba(60,40,140,.35)!important;border-color:rgba(126,232,255,.35)!important}
+.info li{color:#cfe9ff!important}
+.chip{background:rgba(7,5,18,.6)!important;border-color:var(--line)!important}
+.chip.on{background:linear-gradient(135deg,#ffcf4d,#ff8a3d)!important;color:#1a1000!important}
+.mode button{background:rgba(7,5,18,.6)!important}
+.mode button.on{background:linear-gradient(135deg,#7c4dff,#d24bb5)!important}
+.row .pri{background:linear-gradient(135deg,#7c4dff,#d24bb5)!important}
+.row button{background:rgba(255,255,255,.08)}
+.sw button{background:rgba(7,5,18,.6)!important}
+.sw button.on{background:linear-gradient(135deg,#7c4dff,#d24bb5)!important;border-color:transparent!important}
+.menu{background:rgba(22,15,50,.97)!important}
+.sg{background:linear-gradient(135deg,#7c4dff,#d24bb5)!important;color:#fff!important}
+.badge{background:linear-gradient(135deg,#ffcf4d,#ff8a3d)!important}
+.meter i{background:linear-gradient(90deg,#3ee6ff,#d24bb5)!important}
+.name{text-shadow:0 0 12px rgba(126,232,255,.5)}
+.top h1{background:linear-gradient(90deg,#cfe9ff,#e4b8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stip{background:rgba(0,0,0,.6)!important;padding:8px 10px!important;border-radius:10px}
 .hide{display:none!important}
 .pop{animation:pop .35s}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.12);color:var(--green)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
+<canvas id="stars"></canvas>
 
 <!-- HOME -->
 <div id="home">
-  <div class="top"><span style="width:40px"></span><h1>✦ Auto Shiny Counter</h1><span style="width:40px"></span></div>
+  <div class="top"><span style="width:40px"></span><h1>✦ Auto Shiny Counter ✦</h1><span style="width:40px"></span></div>
   <div class="wrap">
     <div id="list" class="list"></div>
     <div id="empty" class="empty"><div style="font-size:44px">✨</div><p>Track your hunts. The camera adds 1 every time your game goes black from a reset.</p></div>
@@ -112,7 +147,7 @@ h3{font-size:16px;color:var(--mut);margin:22px 0 10px}
   <div class="wrap">
     <div class="hcard">
       <div class="badge hide" id="cool"></div>
-      <img class="spr" id="spr" alt="">
+      <img class="spr" id="spr" alt="" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'">
       <div class="sw"><button id="swN" class="on" onclick="setShiny(0)">Normal</button><button id="swS" onclick="setShiny(1)">Shiny</button></div>
       <div class="name" id="hName"></div>
       <div class="count" id="count">0</div>
@@ -194,16 +229,18 @@ h3{font-size:16px;color:var(--mut);margin:22px 0 10px}
   <label>Odds (1 in …)</label><input id="sOdds" type="number">
   <label>Camera sensitivity</label><input id="sens" type="range" min="20" max="70" value="40">
   <div class="hint" style="text-align:left">Counts when the box gets darker than the red line. Slide right if resets are missed, left if it counts by itself.</div>
-  <label>Wait between counts (seconds)</label><input id="sGap" type="number" min="1" max="20" value="3">
+  <label>Wait between counts (seconds)</label><input id="sGap" type="number" min="1" max="60" value="15"><div class="hint" style="text-align:left">After a count, ignores the screen for this long so the dark intro after a reset can't add extra. 15 is good for soft resets.</div>
   <div class="row"><button type="button" onclick="hideEl('setSheet')">Cancel</button><button type="button" class="pri" onclick="saveSettings()">Save</button></div>
 </div></div>
 
 <script>
 const $=id=>document.getElementById(id);
-let S=JSON.parse(localStorage.getItem('asc')||'{"hunts":[],"cur":null,"dex":[],"sens":40,"gap":3}');
-if(S.sens==null)S.sens=40;if(S.gap==null)S.gap=3;
+let S;try{S=JSON.parse(localStorage.getItem('asc'))}catch(e){S=null}
+if(!S||typeof S!=='object')S={};if(!Array.isArray(S.hunts))S.hunts=[];if(!Array.isArray(S.dex))S.dex=[];
+if(S.sens==null)S.sens=40;if(S.gap==null||S.v!==2){S.gap=15;S.v=2}
+function esc(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 let showShiny=0;
-function save(){localStorage.setItem('asc',JSON.stringify(S))}
+function save(){try{localStorage.setItem('asc',JSON.stringify(S))}catch(e){}}
 function hideEl(id){$(id).classList.add('hide')}
 function showEl(id){$(id).classList.remove('hide')}
 function slug(n){return n.toLowerCase().trim().replace(/♀/g,'-f').replace(/♂/g,'-m').replace(/[.'’:]/g,'').replace(/é/g,'e').replace(/\s+/g,'-')}
@@ -215,19 +252,19 @@ function openNew(){showEl('newSheet');setTimeout(()=>$('nName').focus(),50)}
 function createHunt(){
   const name=$('nName').value.trim();if(!name){$('nName').focus();return}
   let o=$('nOdds').value==='custom'?parseInt($('nCustom').value):parseInt($('nOdds').value);if(!o||o<2)o=8192;
-  const h={id:Date.now(),name,odds:o,count:parseInt($('nStart').value)||0,time:0};
+  const h={id:Date.now(),name,odds:o,count:Math.max(0,parseInt($('nStart').value)||0),time:0,mode:'dark',kw:'wild'};
   S.hunts.push(h);save();hideEl('newSheet');$('nName').value='';openHunt(h.id);
 }
-function openHunt(id){S.cur=id;save();showShiny=0;hideEl('home');showEl('hunt');renderHunt();window.scrollTo(0,0)}
+function openHunt(id){if(!cur()||$('hunt').classList.contains('hide'))S.cur=id;save();showShiny=0;hideEl('home');showEl('hunt');renderHunt();window.scrollTo(0,0)}
 function goHome(){stopDet();hideEl('menu');hideEl('hunt');showEl('home');renderHome()}
 function setShiny(v){showShiny=v;renderHunt()}
 function renderHome(){
   $('list').innerHTML='';
   S.hunts.forEach(h=>{const b=document.createElement('button');b.className='item';
-    b.innerHTML='<img src="'+img(h.name,0)+'" alt=""><div><b>'+h.name+'</b><br><span style="color:#8fb0b8;font-size:13px">1/'+h.odds.toLocaleString()+'</span></div><span class="c">'+h.count.toLocaleString()+'</span>';
+    b.innerHTML='<img src="'+img(h.name,0)+'" alt="" onerror="this.style.visibility=\'hidden\'"><div><b>'+esc(h.name)+'</b><br><span style="color:var(--mut);font-size:13px">1/'+h.odds.toLocaleString()+'</span></div><span class="c">'+h.count.toLocaleString()+'</span>';
     b.onclick=()=>openHunt(h.id);$('list').appendChild(b)});
   $('empty').classList.toggle('hide',S.hunts.length>0);
-  $('dex').innerHTML=S.dex.map(d=>'<div><img src="'+img(d.name,1)+'" alt=""><br>'+d.name+'<br><span style="color:#8fb0b8">'+d.count.toLocaleString()+' · '+d.date+'</span></div>').join('');
+  $('dex').innerHTML=S.dex.map(d=>'<div><img src="'+img(d.name,1)+'" alt="" onerror="this.style.visibility=\'hidden\'"><br>'+esc(d.name)+'<br><span style="color:var(--mut)">'+d.count.toLocaleString()+' · '+d.date+'</span></div>').join('');
   $('dexEmpty').classList.toggle('hide',S.dex.length>0);
 }
 function renderHunt(){const h=cur();if(!h)return goHome();
@@ -249,7 +286,7 @@ function foundIt(){hideEl('menu');const h=cur();if(!h||!confirm('Found a shiny '
   S.hunts=S.hunts.filter(x=>x!==h);S.cur=null;save();goHome();alert('Congrats on your shiny '+h.name+'! ✨')}
 function openSettings(){const h=cur();$('sOdds').value=h?h.odds:8192;$('sens').value=S.sens;$('sGap').value=S.gap;showEl('setSheet')}
 function saveSettings(){const h=cur();const o=parseInt($('sOdds').value);if(h&&o>1)h.odds=o;
-  S.sens=parseInt($('sens').value);S.gap=Math.min(20,Math.max(1,parseInt($('sGap').value)||3));save();hideEl('setSheet');renderHunt()}
+  S.sens=parseInt($('sens').value);S.gap=Math.min(60,Math.max(1,parseInt($('sGap').value)||15));save();hideEl('setSheet');renderHunt()}
 
 // ---- camera detection ----
 let stream=null,timer=null,base=null,armed=true,darkSince=0,lastCount=0,wake=null,lastTick=0;
@@ -313,9 +350,9 @@ function tick(){
 }
 
 // ---- text recognition settings ----
-function hmode(){const h=cur();return (h&&h.mode)||'text'}
+function hmode(){const h=cur();return (h&&h.mode)||'dark'}
 function hkw(){const h=cur();return (h&&h.kw)||'wild'}
-let tmpMode='text';
+let tmpMode='dark';
 function openText(){const h=cur();if(!h)return;tmpMode=hmode();$('kw').value=hkw();renderText();showEl('tpage');window.scrollTo(0,0)}
 function setMode(m){tmpMode=m;renderText()}
 function renderText(){const h=cur();
@@ -359,6 +396,29 @@ async function ocrTick(){
   ocrBusy=false}
 setInterval(ocrTick,700);
 document.addEventListener('visibilitychange',async()=>{if(stream&&document.visibilityState==='visible'){lastTick=Date.now();if('wakeLock' in navigator){try{wake=await navigator.wakeLock.request('screen')}catch(e){}}}});
+
+// ---- phone Back button: closes the open screen instead of leaving the app ----
+history.replaceState({base:1},'');history.pushState({trap:1},'');
+addEventListener('popstate',()=>{
+  let closed=true;
+  if(!$('setup').classList.contains('hide'))cancelSetup();
+  else if(['newSheet','setSheet','tpage'].some(id=>!$(id).classList.contains('hide')))['newSheet','setSheet','tpage'].forEach(hideEl);
+  else if(!$('menu').classList.contains('hide'))hideEl('menu');
+  else if(!$('hunt').classList.contains('hide'))goHome();
+  else closed=false;
+  if(closed)history.pushState({trap:1},'');else history.back();
+});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')save()});
+addEventListener('pagehide',save);
+
+// ---- galaxy stars ----
+(function(){const c=document.getElementById('stars'),g=c.getContext('2d');let W,H,st=[];
+function size(){W=c.width=innerWidth*devicePixelRatio;H=c.height=innerHeight*devicePixelRatio;
+  st=Array.from({length:Math.round(innerWidth*innerHeight/2500)},()=>({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.3+.3)*devicePixelRatio,p:Math.random()*6.28,s:.5+Math.random()*1.5}))}
+size();addEventListener('resize',size);
+function draw(t){g.clearRect(0,0,W,H);for(const a of st){const o=.35+.65*Math.abs(Math.sin(a.p+t/1000*a.s));
+  g.globalAlpha=o;g.fillStyle=a.r>1.2*devicePixelRatio?'#cfe9ff':'#ffffff';g.beginPath();g.arc(a.x,a.y,a.r,0,6.28);g.fill()}
+  requestAnimationFrame(draw)}requestAnimationFrame(draw)})();
 renderHome();
 </script>
 </body>
