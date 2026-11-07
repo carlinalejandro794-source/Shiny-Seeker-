@@ -244,7 +244,50 @@ body:not(.det) #hunt .count{margin-top:8px!important}
 body:not(.det) #hunt .sprs{margin-top:5vh!important}
 body:not(.det) #oddsBar{margin-top:5vh!important}
 body:not(.det) #hunt .sprs .spr{width:20vh!important;height:20vh!important}
+body #hunt .sprs.three{gap:3vw!important}
+#nOdds,#nOdds2,#nOdds3{font-size:14px!important;padding-left:12px!important;padding-right:24px!important}
+body #hunt .sprs.three .spr{width:min(20vh,29vw)!important;height:min(20vh,29vw)!important}
 body:not(.det) #hunt .count{font-size:22vh!important;line-height:1!important}
+/* v54: odds bar right under the count, -/+ buttons removed */
+#hunt #oddsBar,body:not(.det) #oddsBar,body.det #oddsBar{position:relative!important;margin:10px auto 0!important;padding:0!important;max-width:420px;width:100%;background:transparent!important;border:0!important;pointer-events:none}
+#hunt #oddsBar .lbl{font-size:13px}
+#hunt #oddsBar .trk{height:8px}
+/* v55: pixel shiny walker under the odds bar */
+#hunt .hcard #walk{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;height:64px;margin:6px -16px 0;overflow:hidden}
+#hunt #walkerIn{height:56px}
+#tapTip{font-size:12px;color:#a99bd6;margin:6px 0 2px;letter-spacing:.3px}
+body.det #tapTip{display:none}
+/* v58: shiny parade walking right-to-left under the odds bar (your hunt Pokemon leads) */
+#hunt .hcard #walk{height:62px}
+@keyframes marchL{from{transform:translateX(calc(100vw + 20px))}to{transform:translateX(-80px)}}
+#walker,.pal{animation:marchL 32s linear infinite!important}
+#walkerIn,.pal img{animation:none!important;transform:none!important}
+#walker.hop #walkerIn{animation:hop .6s ease-out!important}
+#walkerIn{height:48px!important}
+.pal{position:absolute;bottom:4px;left:0;pointer-events:none;filter:drop-shadow(0 0 5px rgba(255,220,120,.6))}
+.pal img{display:block;height:44px;image-rendering:pixelated}
+.pal.still{bottom:-12px}
+.pal.still img{height:76px;animation:bob .45s ease-in-out infinite alternate!important}
+@keyframes bob{from{margin-bottom:0}to{margin-bottom:5px}}
+/* v59: two lanes, bottom lane under the top lane */
+#hunt .hcard #walk{height:124px!important}
+#walker{bottom:64px!important}
+.pal.high{bottom:64px}.pal.high.still{bottom:52px}
+.pal.low{bottom:4px}.pal.low.still{bottom:-10px}
+#walk::before{bottom:66px!important}
+/* v60: everyone takes steps (waddle + bounce) while marching */
+@keyframes step{0%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(0) translateY(-4px)}100%{transform:rotate(6deg) translateY(0)}}
+.pal img,#walkerIn{transform-origin:50% 100%;animation:step .38s ease-in-out infinite alternate!important}
+#walker.hop #walkerIn{animation:hop .6s ease-out!important}
+.pal.still img{height:48px!important;image-rendering:auto}
+.pal.high.still{bottom:62px}.pal.low.still{bottom:2px}
+/* v61: the whole group walks back and forth and turns around together, like the original Charmander walker */
+#pGo{position:absolute;left:0;bottom:0;height:100%;width:70px;animation:grpX 22s linear infinite}
+#pFlip{position:absolute;inset:0;animation:flip 22s steps(1) infinite}
+@keyframes grpX{0%{transform:translateX(-80px)}50%{transform:translateX(100vw)}100%{transform:translateX(-80px)}}
+#pFlip .pal,#pFlip #walker{animation:none!important;transform:none!important}
+#pFlip .pal img,#pFlip #walkerIn{animation:none!important;transform:none!important}
+#pFlip #walker.hop #walkerIn{animation:hop .6s ease-out!important}
 </style>
 </head>
 <body>
@@ -266,16 +309,15 @@ body:not(.det) #hunt .count{font-size:22vh!important;line-height:1!important}
 <!-- HUNT -->
 <div id="hunt" class="hide">
   <div class="top"><button class="ib" onclick="goHome()">←</button><h1 id="hTitle">Hunt</h1><button class="ib" onclick="toggleMenu()" aria-label="Settings" style="font-size:26px">⚙︎</button></div>
-  <div id="walk"><div id="walker"><img id="walkerIn" alt=""></div></div>
-  <div id="oddsBar"><div class="lbl"><span>✨ Shiny odds so far</span><b id="oddsPct">0%</b></div><div class="trk"><div class="fill" id="oddsFill"></div></div></div>
   <div class="wrap">
     <div class="hcard">
       <div class="badge hide" id="cool"></div>
       <div class="name" id="hName"></div>
-      <div class="sprs"><img class="spr" id="spr" alt="" onerror="sprFail(this)" onload="this.style.visibility='visible'"><img class="spr" id="spr2" alt="" onerror="sprFail(this)" onload="this.style.visibility='visible'"></div>
+      <div class="sprs"><img class="spr" id="spr" alt="" onerror="sprFail(this)" onload="this.style.visibility='visible'"><img class="spr" id="spr2" alt="" onerror="sprFail(this)" onload="this.style.visibility='visible'"><img class="spr" id="spr3" alt="" style="display:none" onerror="sprFail(this)" onload="this.style.visibility='visible'"></div>
       <div class="enc">Encounters</div>
       <div class="count" id="count">0</div>
-      <div class="pm"><button class="circ minus" onclick="add(-1)">−</button><button class="circ plus" onclick="add(1)">+</button></div>
+      <div id="oddsBar"><div class="lbl"><span>✨ Shiny odds so far</span><b id="oddsPct">0%</b></div><div class="trk"><div class="fill" id="oddsFill"></div></div></div>
+      <div id="walk"><div id="walker"><img id="walkerIn" alt=""></div></div>
       <div class="mini"><span>⏱ <b id="time">0:00:00</b></span><span>1/<b id="stRate">—</b></span><span><b id="odds">—</b> so far</span><i id="stStart" hidden></i><i id="stLast" hidden></i></div>
       <div id="camArea" style="margin:16px 0 4px" class="hide">
         <div class="cam"><video id="vid" playsinline muted></video><div class="box"></div><div class="camCount" id="camCount">0</div><div class="camName" id="camName"></div></div>
@@ -335,17 +377,276 @@ body:not(.det) #hunt .count{font-size:22vh!important;line-height:1!important}
 <!-- NEW HUNT SHEET -->
 <div class="sheet hide" id="newSheet"><div>
   <h2>Create Hunt</h2>
-  <label>Pokémon</label><input id="nName" placeholder="e.g. Charmander" autocomplete="off">
-  <label>Game / odds</label>
-  <select id="nOdds">
-    <option value="8192">Gen 2–5 (FireRed, Emerald…) 1/8192</option>
-    <option value="4096">Gen 6+ 1/4096</option>
-    <option value="1365">Shiny Charm 1/1365</option>
-    <option value="683">Masuda 1/683</option>
-    <option value="512">Masuda + Charm 1/512</option>
-    <option value="custom">Custom…</option>
+  <div style="display:flex;gap:10px"><div style="flex:1;min-width:0"><label>Pokémon</label><select id="nName" style="width:100%;box-sizing:border-box"><option value="">Pick one</option><option>Bulbasaur</option><option>Ivysaur</option><option>Venusaur</option><option>Charmander</option><option>Charmeleon</option><option>Charizard</option><option>Squirtle</option><option>Wartortle</option><option>Blastoise</option><option>Caterpie</option><option>Metapod</option><option>Butterfree</option><option>Weedle</option><option>Kakuna</option><option>Beedrill</option><option>Pidgey</option><option>Pidgeotto</option><option>Pidgeot</option><option>Rattata</option><option>Raticate</option><option>Spearow</option><option>Fearow</option><option>Ekans</option><option>Arbok</option><option>Pikachu</option><option>Raichu</option><option>Sandshrew</option><option>Sandslash</option><option>Nidoran-F</option><option>Nidorina</option><option>Nidoqueen</option><option>Nidoran-M</option><option>Nidorino</option><option>Nidoking</option><option>Clefairy</option><option>Clefable</option><option>Vulpix</option><option>Ninetales</option><option>Jigglypuff</option><option>Wigglytuff</option><option>Zubat</option><option>Golbat</option><option>Oddish</option><option>Gloom</option><option>Vileplume</option><option>Paras</option><option>Parasect</option><option>Venonat</option><option>Venomoth</option><option>Diglett</option><option>Dugtrio</option><option>Meowth</option><option>Persian</option><option>Psyduck</option><option>Golduck</option><option>Mankey</option><option>Primeape</option><option>Growlithe</option><option>Arcanine</option><option>Poliwag</option><option>Poliwhirl</option><option>Poliwrath</option><option>Abra</option><option>Kadabra</option><option>Alakazam</option><option>Machop</option><option>Machoke</option><option>Machamp</option><option>Bellsprout</option><option>Weepinbell</option><option>Victreebel</option><option>Tentacool</option><option>Tentacruel</option><option>Geodude</option><option>Graveler</option><option>Golem</option><option>Ponyta</option><option>Rapidash</option><option>Slowpoke</option><option>Slowbro</option><option>Magnemite</option><option>Magneton</option><option>Farfetch’d</option><option>Doduo</option><option>Dodrio</option><option>Seel</option><option>Dewgong</option><option>Grimer</option><option>Muk</option><option>Shellder</option><option>Cloyster</option><option>Gastly</option><option>Haunter</option><option>Gengar</option><option>Onix</option><option>Drowzee</option><option>Hypno</option><option>Krabby</option><option>Kingler</option><option>Voltorb</option><option>Electrode</option><option>Exeggcute</option><option>Exeggutor</option><option>Cubone</option><option>Marowak</option><option>Hitmonlee</option><option>Hitmonchan</option><option>Lickitung</option><option>Koffing</option><option>Weezing</option><option>Rhyhorn</option><option>Rhydon</option><option>Chansey</option><option>Tangela</option><option>Kangaskhan</option><option>Horsea</option><option>Seadra</option><option>Goldeen</option><option>Seaking</option><option>Staryu</option><option>Starmie</option><option>Mr. Mime</option><option>Scyther</option><option>Jynx</option><option>Electabuzz</option><option>Magmar</option><option>Pinsir</option><option>Tauros</option><option>Magikarp</option><option>Gyarados</option><option>Lapras</option><option>Ditto</option><option>Eevee</option><option>Vaporeon</option><option>Jolteon</option><option>Flareon</option><option>Porygon</option><option>Omanyte</option><option>Omastar</option><option>Kabuto</option><option>Kabutops</option><option>Aerodactyl</option><option>Snorlax</option><option>Articuno</option><option>Zapdos</option><option>Moltres</option><option>Dratini</option><option>Dragonair</option><option>Dragonite</option><option>Mewtwo</option><option>Mew</option><option>Chikorita</option><option>Bayleef</option><option>Meganium</option><option>Cyndaquil</option><option>Quilava</option><option>Typhlosion</option><option>Totodile</option><option>Croconaw</option><option>Feraligatr</option><option>Sentret</option><option>Furret</option><option>Hoothoot</option><option>Noctowl</option><option>Ledyba</option><option>Ledian</option><option>Spinarak</option><option>Ariados</option><option>Crobat</option><option>Chinchou</option><option>Lanturn</option><option>Pichu</option><option>Cleffa</option><option>Igglybuff</option><option>Togepi</option><option>Togetic</option><option>Natu</option><option>Xatu</option><option>Mareep</option><option>Flaaffy</option><option>Ampharos</option><option>Bellossom</option><option>Marill</option><option>Azumarill</option><option>Sudowoodo</option><option>Politoed</option><option>Hoppip</option><option>Skiploom</option><option>Jumpluff</option><option>Aipom</option><option>Sunkern</option><option>Sunflora</option><option>Yanma</option><option>Wooper</option><option>Quagsire</option><option>Espeon</option><option>Umbreon</option><option>Murkrow</option><option>Slowking</option><option>Misdreavus</option><option>Unown</option><option>Wobbuffet</option><option>Girafarig</option><option>Pineco</option><option>Forretress</option><option>Dunsparce</option><option>Gligar</option><option>Steelix</option><option>Snubbull</option><option>Granbull</option><option>Qwilfish</option><option>Scizor</option><option>Shuckle</option><option>Heracross</option><option>Sneasel</option><option>Teddiursa</option><option>Ursaring</option><option>Slugma</option><option>Magcargo</option><option>Swinub</option><option>Piloswine</option><option>Corsola</option><option>Remoraid</option><option>Octillery</option><option>Delibird</option><option>Mantine</option><option>Skarmory</option><option>Houndour</option><option>Houndoom</option><option>Kingdra</option><option>Phanpy</option><option>Donphan</option><option>Porygon2</option><option>Stantler</option><option>Smeargle</option><option>Tyrogue</option><option>Hitmontop</option><option>Smoochum</option><option>Elekid</option><option>Magby</option><option>Miltank</option><option>Blissey</option><option>Raikou</option><option>Entei</option><option>Suicune</option><option>Larvitar</option><option>Pupitar</option><option>Tyranitar</option><option>Lugia</option><option>Ho-Oh</option><option>Celebi</option><option>Treecko</option><option>Grovyle</option><option>Sceptile</option><option>Torchic</option><option>Combusken</option><option>Blaziken</option><option>Mudkip</option><option>Marshtomp</option><option>Swampert</option><option>Poochyena</option><option>Mightyena</option><option>Zigzagoon</option><option>Linoone</option><option>Wurmple</option><option>Silcoon</option><option>Beautifly</option><option>Cascoon</option><option>Dustox</option><option>Lotad</option><option>Lombre</option><option>Ludicolo</option><option>Seedot</option><option>Nuzleaf</option><option>Shiftry</option><option>Taillow</option><option>Swellow</option><option>Wingull</option><option>Pelipper</option><option>Ralts</option><option>Kirlia</option><option>Gardevoir</option><option>Surskit</option><option>Masquerain</option><option>Shroomish</option><option>Breloom</option><option>Slakoth</option><option>Vigoroth</option><option>Slaking</option><option>Nincada</option><option>Ninjask</option><option>Shedinja</option><option>Whismur</option><option>Loudred</option><option>Exploud</option><option>Makuhita</option><option>Hariyama</option><option>Azurill</option><option>Nosepass</option><option>Skitty</option><option>Delcatty</option><option>Sableye</option><option>Mawile</option><option>Aron</option><option>Lairon</option><option>Aggron</option><option>Meditite</option><option>Medicham</option><option>Electrike</option><option>Manectric</option><option>Plusle</option><option>Minun</option><option>Volbeat</option><option>Illumise</option><option>Roselia</option><option>Gulpin</option><option>Swalot</option><option>Carvanha</option><option>Sharpedo</option><option>Wailmer</option><option>Wailord</option><option>Numel</option><option>Camerupt</option><option>Torkoal</option><option>Spoink</option><option>Grumpig</option><option>Spinda</option><option>Trapinch</option><option>Vibrava</option><option>Flygon</option><option>Cacnea</option><option>Cacturne</option><option>Swablu</option><option>Altaria</option><option>Zangoose</option><option>Seviper</option><option>Lunatone</option><option>Solrock</option><option>Barboach</option><option>Whiscash</option><option>Corphish</option><option>Crawdaunt</option><option>Baltoy</option><option>Claydol</option><option>Lileep</option><option>Cradily</option><option>Anorith</option><option>Armaldo</option><option>Feebas</option><option>Milotic</option><option>Castform</option><option>Kecleon</option><option>Shuppet</option><option>Banette</option><option>Duskull</option><option>Dusclops</option><option>Tropius</option><option>Chimecho</option><option>Absol</option><option>Wynaut</option><option>Snorunt</option><option>Glalie</option><option>Spheal</option><option>Sealeo</option><option>Walrein</option><option>Clamperl</option><option>Huntail</option><option>Gorebyss</option><option>Relicanth</option><option>Luvdisc</option><option>Bagon</option><option>Shelgon</option><option>Salamence</option><option>Beldum</option><option>Metang</option><option>Metagross</option><option>Regirock</option><option>Regice</option><option>Registeel</option><option>Latias</option><option>Latios</option><option>Kyogre</option><option>Groudon</option><option>Rayquaza</option><option>Jirachi</option><option>Deoxys</option></select></div><div style="flex:1;min-width:0"><label>Pokémon</label><select id="nName2" style="width:100%;box-sizing:border-box"><option value="">Pick one</option><option>Bulbasaur</option><option>Ivysaur</option><option>Venusaur</option><option>Charmander</option><option>Charmeleon</option><option>Charizard</option><option>Squirtle</option><option>Wartortle</option><option>Blastoise</option><option>Caterpie</option><option>Metapod</option><option>Butterfree</option><option>Weedle</option><option>Kakuna</option><option>Beedrill</option><option>Pidgey</option><option>Pidgeotto</option><option>Pidgeot</option><option>Rattata</option><option>Raticate</option><option>Spearow</option><option>Fearow</option><option>Ekans</option><option>Arbok</option><option>Pikachu</option><option>Raichu</option><option>Sandshrew</option><option>Sandslash</option><option>Nidoran-F</option><option>Nidorina</option><option>Nidoqueen</option><option>Nidoran-M</option><option>Nidorino</option><option>Nidoking</option><option>Clefairy</option><option>Clefable</option><option>Vulpix</option><option>Ninetales</option><option>Jigglypuff</option><option>Wigglytuff</option><option>Zubat</option><option>Golbat</option><option>Oddish</option><option>Gloom</option><option>Vileplume</option><option>Paras</option><option>Parasect</option><option>Venonat</option><option>Venomoth</option><option>Diglett</option><option>Dugtrio</option><option>Meowth</option><option>Persian</option><option>Psyduck</option><option>Golduck</option><option>Mankey</option><option>Primeape</option><option>Growlithe</option><option>Arcanine</option><option>Poliwag</option><option>Poliwhirl</option><option>Poliwrath</option><option>Abra</option><option>Kadabra</option><option>Alakazam</option><option>Machop</option><option>Machoke</option><option>Machamp</option><option>Bellsprout</option><option>Weepinbell</option><option>Victreebel</option><option>Tentacool</option><option>Tentacruel</option><option>Geodude</option><option>Graveler</option><option>Golem</option><option>Ponyta</option><option>Rapidash</option><option>Slowpoke</option><option>Slowbro</option><option>Magnemite</option><option>Magneton</option><option>Farfetch’d</option><option>Doduo</option><option>Dodrio</option><option>Seel</option><option>Dewgong</option><option>Grimer</option><option>Muk</option><option>Shellder</option><option>Cloyster</option><option>Gastly</option><option>Haunter</option><option>Gengar</option><option>Onix</option><option>Drowzee</option><option>Hypno</option><option>Krabby</option><option>Kingler</option><option>Voltorb</option><option>Electrode</option><option>Exeggcute</option><option>Exeggutor</option><option>Cubone</option><option>Marowak</option><option>Hitmonlee</option><option>Hitmonchan</option><option>Lickitung</option><option>Koffing</option><option>Weezing</option><option>Rhyhorn</option><option>Rhydon</option><option>Chansey</option><option>Tangela</option><option>Kangaskhan</option><option>Horsea</option><option>Seadra</option><option>Goldeen</option><option>Seaking</option><option>Staryu</option><option>Starmie</option><option>Mr. Mime</option><option>Scyther</option><option>Jynx</option><option>Electabuzz</option><option>Magmar</option><option>Pinsir</option><option>Tauros</option><option>Magikarp</option><option>Gyarados</option><option>Lapras</option><option>Ditto</option><option>Eevee</option><option>Vaporeon</option><option>Jolteon</option><option>Flareon</option><option>Porygon</option><option>Omanyte</option><option>Omastar</option><option>Kabuto</option><option>Kabutops</option><option>Aerodactyl</option><option>Snorlax</option><option>Articuno</option><option>Zapdos</option><option>Moltres</option><option>Dratini</option><option>Dragonair</option><option>Dragonite</option><option>Mewtwo</option><option>Mew</option><option>Chikorita</option><option>Bayleef</option><option>Meganium</option><option>Cyndaquil</option><option>Quilava</option><option>Typhlosion</option><option>Totodile</option><option>Croconaw</option><option>Feraligatr</option><option>Sentret</option><option>Furret</option><option>Hoothoot</option><option>Noctowl</option><option>Ledyba</option><option>Ledian</option><option>Spinarak</option><option>Ariados</option><option>Crobat</option><option>Chinchou</option><option>Lanturn</option><option>Pichu</option><option>Cleffa</option><option>Igglybuff</option><option>Togepi</option><option>Togetic</option><option>Natu</option><option>Xatu</option><option>Mareep</option><option>Flaaffy</option><option>Ampharos</option><option>Bellossom</option><option>Marill</option><option>Azumarill</option><option>Sudowoodo</option><option>Politoed</option><option>Hoppip</option><option>Skiploom</option><option>Jumpluff</option><option>Aipom</option><option>Sunkern</option><option>Sunflora</option><option>Yanma</option><option>Wooper</option><option>Quagsire</option><option>Espeon</option><option>Umbreon</option><option>Murkrow</option><option>Slowking</option><option>Misdreavus</option><option>Unown</option><option>Wobbuffet</option><option>Girafarig</option><option>Pineco</option><option>Forretress</option><option>Dunsparce</option><option>Gligar</option><option>Steelix</option><option>Snubbull</option><option>Granbull</option><option>Qwilfish</option><option>Scizor</option><option>Shuckle</option><option>Heracross</option><option>Sneasel</option><option>Teddiursa</option><option>Ursaring</option><option>Slugma</option><option>Magcargo</option><option>Swinub</option><option>Piloswine</option><option>Corsola</option><option>Remoraid</option><option>Octillery</option><option>Delibird</option><option>Mantine</option><option>Skarmory</option><option>Houndour</option><option>Houndoom</option><option>Kingdra</option><option>Phanpy</option><option>Donphan</option><option>Porygon2</option><option>Stantler</option><option>Smeargle</option><option>Tyrogue</option><option>Hitmontop</option><option>Smoochum</option><option>Elekid</option><option>Magby</option><option>Miltank</option><option>Blissey</option><option>Raikou</option><option>Entei</option><option>Suicune</option><option>Larvitar</option><option>Pupitar</option><option>Tyranitar</option><option>Lugia</option><option>Ho-Oh</option><option>Celebi</option><option>Treecko</option><option>Grovyle</option><option>Sceptile</option><option>Torchic</option><option>Combusken</option><option>Blaziken</option><option>Mudkip</option><option>Marshtomp</option><option>Swampert</option><option>Poochyena</option><option>Mightyena</option><option>Zigzagoon</option><option>Linoone</option><option>Wurmple</option><option>Silcoon</option><option>Beautifly</option><option>Cascoon</option><option>Dustox</option><option>Lotad</option><option>Lombre</option><option>Ludicolo</option><option>Seedot</option><option>Nuzleaf</option><option>Shiftry</option><option>Taillow</option><option>Swellow</option><option>Wingull</option><option>Pelipper</option><option>Ralts</option><option>Kirlia</option><option>Gardevoir</option><option>Surskit</option><option>Masquerain</option><option>Shroomish</option><option>Breloom</option><option>Slakoth</option><option>Vigoroth</option><option>Slaking</option><option>Nincada</option><option>Ninjask</option><option>Shedinja</option><option>Whismur</option><option>Loudred</option><option>Exploud</option><option>Makuhita</option><option>Hariyama</option><option>Azurill</option><option>Nosepass</option><option>Skitty</option><option>Delcatty</option><option>Sableye</option><option>Mawile</option><option>Aron</option><option>Lairon</option><option>Aggron</option><option>Meditite</option><option>Medicham</option><option>Electrike</option><option>Manectric</option><option>Plusle</option><option>Minun</option><option>Volbeat</option><option>Illumise</option><option>Roselia</option><option>Gulpin</option><option>Swalot</option><option>Carvanha</option><option>Sharpedo</option><option>Wailmer</option><option>Wailord</option><option>Numel</option><option>Camerupt</option><option>Torkoal</option><option>Spoink</option><option>Grumpig</option><option>Spinda</option><option>Trapinch</option><option>Vibrava</option><option>Flygon</option><option>Cacnea</option><option>Cacturne</option><option>Swablu</option><option>Altaria</option><option>Zangoose</option><option>Seviper</option><option>Lunatone</option><option>Solrock</option><option>Barboach</option><option>Whiscash</option><option>Corphish</option><option>Crawdaunt</option><option>Baltoy</option><option>Claydol</option><option>Lileep</option><option>Cradily</option><option>Anorith</option><option>Armaldo</option><option>Feebas</option><option>Milotic</option><option>Castform</option><option>Kecleon</option><option>Shuppet</option><option>Banette</option><option>Duskull</option><option>Dusclops</option><option>Tropius</option><option>Chimecho</option><option>Absol</option><option>Wynaut</option><option>Snorunt</option><option>Glalie</option><option>Spheal</option><option>Sealeo</option><option>Walrein</option><option>Clamperl</option><option>Huntail</option><option>Gorebyss</option><option>Relicanth</option><option>Luvdisc</option><option>Bagon</option><option>Shelgon</option><option>Salamence</option><option>Beldum</option><option>Metang</option><option>Metagross</option><option>Regirock</option><option>Regice</option><option>Registeel</option><option>Latias</option><option>Latios</option><option>Kyogre</option><option>Groudon</option><option>Rayquaza</option><option>Jirachi</option><option>Deoxys</option></select></div></div>
+  <div style="display:flex;gap:10px"><div style="flex:1;min-width:0"><label>Pokémon</label><select id="nName3" style="width:100%;box-sizing:border-box"><option value="">Pick one</option><option>Bulbasaur</option><option>Ivysaur</option><option>Venusaur</option><option>Charmander</option><option>Charmeleon</option><option>Charizard</option><option>Squirtle</option><option>Wartortle</option><option>Blastoise</option><option>Caterpie</option><option>Metapod</option><option>Butterfree</option><option>Weedle</option><option>Kakuna</option><option>Beedrill</option><option>Pidgey</option><option>Pidgeotto</option><option>Pidgeot</option><option>Rattata</option><option>Raticate</option><option>Spearow</option><option>Fearow</option><option>Ekans</option><option>Arbok</option><option>Pikachu</option><option>Raichu</option><option>Sandshrew</option><option>Sandslash</option><option>Nidoran-F</option><option>Nidorina</option><option>Nidoqueen</option><option>Nidoran-M</option><option>Nidorino</option><option>Nidoking</option><option>Clefairy</option><option>Clefable</option><option>Vulpix</option><option>Ninetales</option><option>Jigglypuff</option><option>Wigglytuff</option><option>Zubat</option><option>Golbat</option><option>Oddish</option><option>Gloom</option><option>Vileplume</option><option>Paras</option><option>Parasect</option><option>Venonat</option><option>Venomoth</option><option>Diglett</option><option>Dugtrio</option><option>Meowth</option><option>Persian</option><option>Psyduck</option><option>Golduck</option><option>Mankey</option><option>Primeape</option><option>Growlithe</option><option>Arcanine</option><option>Poliwag</option><option>Poliwhirl</option><option>Poliwrath</option><option>Abra</option><option>Kadabra</option><option>Alakazam</option><option>Machop</option><option>Machoke</option><option>Machamp</option><option>Bellsprout</option><option>Weepinbell</option><option>Victreebel</option><option>Tentacool</option><option>Tentacruel</option><option>Geodude</option><option>Graveler</option><option>Golem</option><option>Ponyta</option><option>Rapidash</option><option>Slowpoke</option><option>Slowbro</option><option>Magnemite</option><option>Magneton</option><option>Farfetch’d</option><option>Doduo</option><option>Dodrio</option><option>Seel</option><option>Dewgong</option><option>Grimer</option><option>Muk</option><option>Shellder</option><option>Cloyster</option><option>Gastly</option><option>Haunter</option><option>Gengar</option><option>Onix</option><option>Drowzee</option><option>Hypno</option><option>Krabby</option><option>Kingler</option><option>Voltorb</option><option>Electrode</option><option>Exeggcute</option><option>Exeggutor</option><option>Cubone</option><option>Marowak</option><option>Hitmonlee</option><option>Hitmonchan</option><option>Lickitung</option><option>Koffing</option><option>Weezing</option><option>Rhyhorn</option><option>Rhydon</option><option>Chansey</option><option>Tangela</option><option>Kangaskhan</option><option>Horsea</option><option>Seadra</option><option>Goldeen</option><option>Seaking</option><option>Staryu</option><option>Starmie</option><option>Mr. Mime</option><option>Scyther</option><option>Jynx</option><option>Electabuzz</option><option>Magmar</option><option>Pinsir</option><option>Tauros</option><option>Magikarp</option><option>Gyarados</option><option>Lapras</option><option>Ditto</option><option>Eevee</option><option>Vaporeon</option><option>Jolteon</option><option>Flareon</option><option>Porygon</option><option>Omanyte</option><option>Omastar</option><option>Kabuto</option><option>Kabutops</option><option>Aerodactyl</option><option>Snorlax</option><option>Articuno</option><option>Zapdos</option><option>Moltres</option><option>Dratini</option><option>Dragonair</option><option>Dragonite</option><option>Mewtwo</option><option>Mew</option><option>Chikorita</option><option>Bayleef</option><option>Meganium</option><option>Cyndaquil</option><option>Quilava</option><option>Typhlosion</option><option>Totodile</option><option>Croconaw</option><option>Feraligatr</option><option>Sentret</option><option>Furret</option><option>Hoothoot</option><option>Noctowl</option><option>Ledyba</option><option>Ledian</option><option>Spinarak</option><option>Ariados</option><option>Crobat</option><option>Chinchou</option><option>Lanturn</option><option>Pichu</option><option>Cleffa</option><option>Igglybuff</option><option>Togepi</option><option>Togetic</option><option>Natu</option><option>Xatu</option><option>Mareep</option><option>Flaaffy</option><option>Ampharos</option><option>Bellossom</option><option>Marill</option><option>Azumarill</option><option>Sudowoodo</option><option>Politoed</option><option>Hoppip</option><option>Skiploom</option><option>Jumpluff</option><option>Aipom</option><option>Sunkern</option><option>Sunflora</option><option>Yanma</option><option>Wooper</option><option>Quagsire</option><option>Espeon</option><option>Umbreon</option><option>Murkrow</option><option>Slowking</option><option>Misdreavus</option><option>Unown</option><option>Wobbuffet</option><option>Girafarig</option><option>Pineco</option><option>Forretress</option><option>Dunsparce</option><option>Gligar</option><option>Steelix</option><option>Snubbull</option><option>Granbull</option><option>Qwilfish</option><option>Scizor</option><option>Shuckle</option><option>Heracross</option><option>Sneasel</option><option>Teddiursa</option><option>Ursaring</option><option>Slugma</option><option>Magcargo</option><option>Swinub</option><option>Piloswine</option><option>Corsola</option><option>Remoraid</option><option>Octillery</option><option>Delibird</option><option>Mantine</option><option>Skarmory</option><option>Houndour</option><option>Houndoom</option><option>Kingdra</option><option>Phanpy</option><option>Donphan</option><option>Porygon2</option><option>Stantler</option><option>Smeargle</option><option>Tyrogue</option><option>Hitmontop</option><option>Smoochum</option><option>Elekid</option><option>Magby</option><option>Miltank</option><option>Blissey</option><option>Raikou</option><option>Entei</option><option>Suicune</option><option>Larvitar</option><option>Pupitar</option><option>Tyranitar</option><option>Lugia</option><option>Ho-Oh</option><option>Celebi</option><option>Treecko</option><option>Grovyle</option><option>Sceptile</option><option>Torchic</option><option>Combusken</option><option>Blaziken</option><option>Mudkip</option><option>Marshtomp</option><option>Swampert</option><option>Poochyena</option><option>Mightyena</option><option>Zigzagoon</option><option>Linoone</option><option>Wurmple</option><option>Silcoon</option><option>Beautifly</option><option>Cascoon</option><option>Dustox</option><option>Lotad</option><option>Lombre</option><option>Ludicolo</option><option>Seedot</option><option>Nuzleaf</option><option>Shiftry</option><option>Taillow</option><option>Swellow</option><option>Wingull</option><option>Pelipper</option><option>Ralts</option><option>Kirlia</option><option>Gardevoir</option><option>Surskit</option><option>Masquerain</option><option>Shroomish</option><option>Breloom</option><option>Slakoth</option><option>Vigoroth</option><option>Slaking</option><option>Nincada</option><option>Ninjask</option><option>Shedinja</option><option>Whismur</option><option>Loudred</option><option>Exploud</option><option>Makuhita</option><option>Hariyama</option><option>Azurill</option><option>Nosepass</option><option>Skitty</option><option>Delcatty</option><option>Sableye</option><option>Mawile</option><option>Aron</option><option>Lairon</option><option>Aggron</option><option>Meditite</option><option>Medicham</option><option>Electrike</option><option>Manectric</option><option>Plusle</option><option>Minun</option><option>Volbeat</option><option>Illumise</option><option>Roselia</option><option>Gulpin</option><option>Swalot</option><option>Carvanha</option><option>Sharpedo</option><option>Wailmer</option><option>Wailord</option><option>Numel</option><option>Camerupt</option><option>Torkoal</option><option>Spoink</option><option>Grumpig</option><option>Spinda</option><option>Trapinch</option><option>Vibrava</option><option>Flygon</option><option>Cacnea</option><option>Cacturne</option><option>Swablu</option><option>Altaria</option><option>Zangoose</option><option>Seviper</option><option>Lunatone</option><option>Solrock</option><option>Barboach</option><option>Whiscash</option><option>Corphish</option><option>Crawdaunt</option><option>Baltoy</option><option>Claydol</option><option>Lileep</option><option>Cradily</option><option>Anorith</option><option>Armaldo</option><option>Feebas</option><option>Milotic</option><option>Castform</option><option>Kecleon</option><option>Shuppet</option><option>Banette</option><option>Duskull</option><option>Dusclops</option><option>Tropius</option><option>Chimecho</option><option>Absol</option><option>Wynaut</option><option>Snorunt</option><option>Glalie</option><option>Spheal</option><option>Sealeo</option><option>Walrein</option><option>Clamperl</option><option>Huntail</option><option>Gorebyss</option><option>Relicanth</option><option>Luvdisc</option><option>Bagon</option><option>Shelgon</option><option>Salamence</option><option>Beldum</option><option>Metang</option><option>Metagross</option><option>Regirock</option><option>Regice</option><option>Registeel</option><option>Latias</option><option>Latios</option><option>Kyogre</option><option>Groudon</option><option>Rayquaza</option><option>Jirachi</option><option>Deoxys</option></select></div><div style="flex:1;min-width:0"></div></div><datalist id="pkList"></datalist>
+  <div style="display:flex;gap:10px"><div style="flex:1;min-width:0"><label>Game / odds</label>
+  <select id="nOdds" style="width:100%;box-sizing:border-box">
+    <optgroup label="Gold, Silver &amp; Crystal">
+      <option value="Gold/Silver/Crystal|8192">Gold / Silver / Crystal</option><option value="Gold/Silver/Crystal|64">Gold / Silver / Crystal · Shiny parent breeding 1/64</option>
+    </optgroup>
+    <optgroup label="Ruby, Sapphire &amp; Emerald">
+      <option value="Ruby/Sapphire/Emerald|8192">Ruby / Sapphire / Emerald</option>
+    </optgroup>
+    <optgroup label="FireRed &amp; LeafGreen">
+      <option value="FRLG|8192">FireRed/LeafGreen</option>
+    </optgroup>
+    <optgroup label="Diamond, Pearl &amp; Platinum">
+      <option value="Diamond/Pearl/Platinum|8192">Diamond / Pearl / Platinum</option>
+      <option value="Diamond/Pearl/Platinum|1638">Diamond / Pearl / Platinum · Masuda 1/1638</option><option value="Diamond/Pearl/Platinum|200">Diamond / Pearl / Platinum · Poké Radar chain 40 1/200</option>
+    </optgroup>
+    <optgroup label="HeartGold &amp; SoulSilver">
+      <option value="HGSS|8192">HeartGold / SoulSilver</option>
+      <option value="HGSS|1638">HeartGold / SoulSilver · Masuda 1/1638</option>
+    </optgroup>
+    <optgroup label="Black &amp; White">
+      <option value="Black/White|8192">Black / White</option>
+      <option value="Black/White|1638">Black / White · Masuda 1/1638</option>
+    </optgroup>
+    <optgroup label="Black 2 &amp; White 2">
+      <option value="Black 2/White 2|8192">Black 2 / White 2</option>
+      <option value="Black 2/White 2|2731">Black 2 / White 2 · Shiny Charm 1/2731</option>
+      <option value="Black 2/White 2|1365">Black 2 / White 2 · Masuda 1/1365</option>
+      <option value="Black 2/White 2|1024">Black 2 / White 2 · Masuda + Charm 1/1024</option>
+    </optgroup>
+    <optgroup label="X &amp; Y">
+      <option value="X/Y|4096">X / Y</option>
+      <option value="X/Y|1365">X / Y · Shiny Charm 1/1365</option>
+      <option value="X/Y|683">X / Y · Masuda 1/683</option>
+      <option value="X/Y|512">X / Y · Masuda + Charm 1/512</option><option value="X/Y|819">X / Y · Friend Safari 1/819</option><option value="X/Y|585">X / Y · Friend Safari + Charm 1/585</option><option value="X/Y|100">X / Y · Chain fishing 20+ 1/100</option><option value="X/Y|99">X / Y · Poké Radar chain 40 1/99</option>
+    </optgroup>
+    <optgroup label="Omega Ruby &amp; Alpha Sapphire">
+      <option value="ORAS|4096">Omega Ruby / Alpha Sapphire</option>
+      <option value="ORAS|1365">Omega Ruby / Alpha Sapphire · Shiny Charm 1/1365</option>
+      <option value="ORAS|683">Omega Ruby / Alpha Sapphire · Masuda 1/683</option>
+      <option value="ORAS|512">Omega Ruby / Alpha Sapphire · Masuda + Charm 1/512</option><option value="ORAS|100">Omega Ruby / Alpha Sapphire · Chain fishing 20+ 1/100</option>
+    </optgroup>
+    <optgroup label="Sun &amp; Moon">
+      <option value="Sun/Moon|4096">Sun / Moon</option>
+      <option value="Sun/Moon|1365">Sun / Moon · Shiny Charm 1/1365</option>
+      <option value="Sun/Moon|683">Sun / Moon · Masuda 1/683</option>
+      <option value="Sun/Moon|512">Sun / Moon · Masuda + Charm 1/512</option><option value="Sun/Moon|315">Sun / Moon · SOS chain 31+ 1/315</option><option value="Sun/Moon|273">Sun / Moon · SOS chain 31+ + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Ultra Sun &amp; Ultra Moon">
+      <option value="USUM|4096">Ultra Sun / Ultra Moon</option>
+      <option value="USUM|1365">Ultra Sun / Ultra Moon · Shiny Charm 1/1365</option>
+      <option value="USUM|683">Ultra Sun / Ultra Moon · Masuda 1/683</option>
+      <option value="USUM|512">Ultra Sun / Ultra Moon · Masuda + Charm 1/512</option><option value="USUM|315">Ultra Sun / Ultra Moon · SOS chain 31+ 1/315</option><option value="USUM|273">Ultra Sun / Ultra Moon · SOS chain 31+ + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Let's Go Pikachu &amp; Eevee">
+      <option value="Let's Go|4096">Let's Go</option>
+      <option value="Let's Go|1365">Let's Go · Shiny Charm 1/1365</option><option value="Let's Go|315">Let's Go · Catch combo 31+ + Lure 1/315</option><option value="Let's Go|273">Let's Go · Catch combo 31+ + Lure + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Sword &amp; Shield">
+      <option value="Sword/Shield|4096">Sword / Shield</option>
+      <option value="Sword/Shield|1365">Sword / Shield · Shiny Charm 1/1365</option>
+      <option value="Sword/Shield|683">Sword / Shield · Masuda 1/683</option>
+      <option value="Sword/Shield|512">Sword / Shield · Masuda + Charm 1/512</option><option value="Sword/Shield|683">Sword / Shield · 500+ battled 1/683</option><option value="Sword/Shield|512">Sword / Shield · 500+ battled + Charm 1/512</option><option value="Sword/Shield|300">Sword / Shield · Dynamax Adventure 1/300</option><option value="Sword/Shield|100">Sword / Shield · Dynamax Adventure + Charm 1/100</option>
+    </optgroup>
+    <optgroup label="Brilliant Diamond &amp; Shining Pearl">
+      <option value="BDSP|4096">Brilliant Diamond / Shining Pearl</option>
+      <option value="BDSP|1365">Brilliant Diamond / Shining Pearl · Shiny Charm 1/1365</option>
+      <option value="BDSP|683">Brilliant Diamond / Shining Pearl · Masuda 1/683</option>
+      <option value="BDSP|512">Brilliant Diamond / Shining Pearl · Masuda + Charm 1/512</option><option value="BDSP|99">Brilliant Diamond / Shining Pearl · Poké Radar chain 40 1/99</option>
+    </optgroup>
+    <optgroup label="Legends: Arceus">
+      <option value="Legends Arceus|4096">Legends Arceus</option>
+      <option value="Legends Arceus|2048">Legends Arceus · Dex research 10 1/2048</option><option value="Legends Arceus|1024">Legends Arceus · Perfect dex 1/1024</option><option value="Legends Arceus|585">Legends Arceus · Perfect dex + Charm 1/585</option><option value="Legends Arceus|158">Legends Arceus · Mass outbreak 1/158</option><option value="Legends Arceus|128">Legends Arceus · Mass outbreak + Perfect + Charm 1/128</option><option value="Legends Arceus|315">Legends Arceus · Massive outbreak 1/315</option><option value="Legends Arceus|216">Legends Arceus · Massive outbreak + Perfect + Charm 1/216</option>
+    </optgroup>
+    <optgroup label="Scarlet &amp; Violet">
+      <option value="Scarlet/Violet|4096">Scarlet / Violet</option>
+      <option value="Scarlet/Violet|1365">Scarlet / Violet · Shiny Charm 1/1365</option>
+      <option value="Scarlet/Violet|1024">Scarlet / Violet · Sparkling Power 3 1/1024</option>
+      <option value="Scarlet/Violet|683">Scarlet / Violet · Sparkling 3 + Charm 1/683</option>
+      <option value="Scarlet/Violet|683">Scarlet / Violet · Masuda 1/683</option>
+      <option value="Scarlet/Violet|512">Scarlet / Violet · Masuda + Charm 1/512</option><option value="Scarlet/Violet|1365">Scarlet / Violet · Outbreak 60+ 1/1365</option><option value="Scarlet/Violet|819">Scarlet / Violet · Outbreak 60+ + Charm 1/819</option><option value="Scarlet/Violet|512">Scarlet / Violet · Outbreak 60+ + Sparkling 3 + Charm 1/512</option>
+    </optgroup>
+    <optgroup label="Legends: Z-A">
+      <option value="Legends Z-A|4096">Legends Z-A</option>
+    </optgroup>
+    <optgroup label="Other">
+      <option value="custom">Custom…</option>
+    </optgroup>
   </select>
-  <input id="nCustom" class="hide" type="number" placeholder="1 in how many?" style="margin-top:8px">
+  <input id="nCustom" class="hide" type="number" placeholder="1 in how many?" style="margin-top:8px;width:100%;box-sizing:border-box"></div><div style="flex:1;min-width:0"><label>Game / odds</label>
+  <select id="nOdds2" style="width:100%;box-sizing:border-box">
+    <option value="same">Same as first</option>
+    <optgroup label="Gold, Silver &amp; Crystal">
+      <option value="Gold/Silver/Crystal|8192">Gold / Silver / Crystal</option><option value="Gold/Silver/Crystal|64">Gold / Silver / Crystal · Shiny parent breeding 1/64</option>
+    </optgroup>
+    <optgroup label="Ruby, Sapphire &amp; Emerald">
+      <option value="Ruby/Sapphire/Emerald|8192">Ruby / Sapphire / Emerald</option>
+    </optgroup>
+    <optgroup label="FireRed &amp; LeafGreen">
+      <option value="FRLG|8192">FireRed/LeafGreen</option>
+    </optgroup>
+    <optgroup label="Diamond, Pearl &amp; Platinum">
+      <option value="Diamond/Pearl/Platinum|8192">Diamond / Pearl / Platinum</option>
+      <option value="Diamond/Pearl/Platinum|1638">Diamond / Pearl / Platinum · Masuda 1/1638</option><option value="Diamond/Pearl/Platinum|200">Diamond / Pearl / Platinum · Poké Radar chain 40 1/200</option>
+    </optgroup>
+    <optgroup label="HeartGold &amp; SoulSilver">
+      <option value="HGSS|8192">HeartGold / SoulSilver</option>
+      <option value="HGSS|1638">HeartGold / SoulSilver · Masuda 1/1638</option>
+    </optgroup>
+    <optgroup label="Black &amp; White">
+      <option value="Black/White|8192">Black / White</option>
+      <option value="Black/White|1638">Black / White · Masuda 1/1638</option>
+    </optgroup>
+    <optgroup label="Black 2 &amp; White 2">
+      <option value="Black 2/White 2|8192">Black 2 / White 2</option>
+      <option value="Black 2/White 2|2731">Black 2 / White 2 · Shiny Charm 1/2731</option>
+      <option value="Black 2/White 2|1365">Black 2 / White 2 · Masuda 1/1365</option>
+      <option value="Black 2/White 2|1024">Black 2 / White 2 · Masuda + Charm 1/1024</option>
+    </optgroup>
+    <optgroup label="X &amp; Y">
+      <option value="X/Y|4096">X / Y</option>
+      <option value="X/Y|1365">X / Y · Shiny Charm 1/1365</option>
+      <option value="X/Y|683">X / Y · Masuda 1/683</option>
+      <option value="X/Y|512">X / Y · Masuda + Charm 1/512</option><option value="X/Y|819">X / Y · Friend Safari 1/819</option><option value="X/Y|585">X / Y · Friend Safari + Charm 1/585</option><option value="X/Y|100">X / Y · Chain fishing 20+ 1/100</option><option value="X/Y|99">X / Y · Poké Radar chain 40 1/99</option>
+    </optgroup>
+    <optgroup label="Omega Ruby &amp; Alpha Sapphire">
+      <option value="ORAS|4096">Omega Ruby / Alpha Sapphire</option>
+      <option value="ORAS|1365">Omega Ruby / Alpha Sapphire · Shiny Charm 1/1365</option>
+      <option value="ORAS|683">Omega Ruby / Alpha Sapphire · Masuda 1/683</option>
+      <option value="ORAS|512">Omega Ruby / Alpha Sapphire · Masuda + Charm 1/512</option><option value="ORAS|100">Omega Ruby / Alpha Sapphire · Chain fishing 20+ 1/100</option>
+    </optgroup>
+    <optgroup label="Sun &amp; Moon">
+      <option value="Sun/Moon|4096">Sun / Moon</option>
+      <option value="Sun/Moon|1365">Sun / Moon · Shiny Charm 1/1365</option>
+      <option value="Sun/Moon|683">Sun / Moon · Masuda 1/683</option>
+      <option value="Sun/Moon|512">Sun / Moon · Masuda + Charm 1/512</option><option value="Sun/Moon|315">Sun / Moon · SOS chain 31+ 1/315</option><option value="Sun/Moon|273">Sun / Moon · SOS chain 31+ + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Ultra Sun &amp; Ultra Moon">
+      <option value="USUM|4096">Ultra Sun / Ultra Moon</option>
+      <option value="USUM|1365">Ultra Sun / Ultra Moon · Shiny Charm 1/1365</option>
+      <option value="USUM|683">Ultra Sun / Ultra Moon · Masuda 1/683</option>
+      <option value="USUM|512">Ultra Sun / Ultra Moon · Masuda + Charm 1/512</option><option value="USUM|315">Ultra Sun / Ultra Moon · SOS chain 31+ 1/315</option><option value="USUM|273">Ultra Sun / Ultra Moon · SOS chain 31+ + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Let's Go Pikachu &amp; Eevee">
+      <option value="Let's Go|4096">Let's Go</option>
+      <option value="Let's Go|1365">Let's Go · Shiny Charm 1/1365</option><option value="Let's Go|315">Let's Go · Catch combo 31+ + Lure 1/315</option><option value="Let's Go|273">Let's Go · Catch combo 31+ + Lure + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Sword &amp; Shield">
+      <option value="Sword/Shield|4096" selected>Sword / Shield</option>
+      <option value="Sword/Shield|1365">Sword / Shield · Shiny Charm 1/1365</option>
+      <option value="Sword/Shield|683">Sword / Shield · Masuda 1/683</option>
+      <option value="Sword/Shield|512">Sword / Shield · Masuda + Charm 1/512</option><option value="Sword/Shield|683">Sword / Shield · 500+ battled 1/683</option><option value="Sword/Shield|512">Sword / Shield · 500+ battled + Charm 1/512</option><option value="Sword/Shield|300">Sword / Shield · Dynamax Adventure 1/300</option><option value="Sword/Shield|100">Sword / Shield · Dynamax Adventure + Charm 1/100</option>
+    </optgroup>
+    <optgroup label="Brilliant Diamond &amp; Shining Pearl">
+      <option value="BDSP|4096">Brilliant Diamond / Shining Pearl</option>
+      <option value="BDSP|1365">Brilliant Diamond / Shining Pearl · Shiny Charm 1/1365</option>
+      <option value="BDSP|683">Brilliant Diamond / Shining Pearl · Masuda 1/683</option>
+      <option value="BDSP|512">Brilliant Diamond / Shining Pearl · Masuda + Charm 1/512</option><option value="BDSP|99">Brilliant Diamond / Shining Pearl · Poké Radar chain 40 1/99</option>
+    </optgroup>
+    <optgroup label="Legends: Arceus">
+      <option value="Legends Arceus|4096">Legends Arceus</option>
+      <option value="Legends Arceus|2048">Legends Arceus · Dex research 10 1/2048</option><option value="Legends Arceus|1024">Legends Arceus · Perfect dex 1/1024</option><option value="Legends Arceus|585">Legends Arceus · Perfect dex + Charm 1/585</option><option value="Legends Arceus|158">Legends Arceus · Mass outbreak 1/158</option><option value="Legends Arceus|128">Legends Arceus · Mass outbreak + Perfect + Charm 1/128</option><option value="Legends Arceus|315">Legends Arceus · Massive outbreak 1/315</option><option value="Legends Arceus|216">Legends Arceus · Massive outbreak + Perfect + Charm 1/216</option>
+    </optgroup>
+    <optgroup label="Scarlet &amp; Violet">
+      <option value="Scarlet/Violet|4096">Scarlet / Violet</option>
+      <option value="Scarlet/Violet|1365">Scarlet / Violet · Shiny Charm 1/1365</option>
+      <option value="Scarlet/Violet|1024">Scarlet / Violet · Sparkling Power 3 1/1024</option>
+      <option value="Scarlet/Violet|683">Scarlet / Violet · Sparkling 3 + Charm 1/683</option>
+      <option value="Scarlet/Violet|683">Scarlet / Violet · Masuda 1/683</option>
+      <option value="Scarlet/Violet|512">Scarlet / Violet · Masuda + Charm 1/512</option><option value="Scarlet/Violet|1365">Scarlet / Violet · Outbreak 60+ 1/1365</option><option value="Scarlet/Violet|819">Scarlet / Violet · Outbreak 60+ + Charm 1/819</option><option value="Scarlet/Violet|512">Scarlet / Violet · Outbreak 60+ + Sparkling 3 + Charm 1/512</option>
+    </optgroup>
+    <optgroup label="Legends: Z-A">
+      <option value="Legends Z-A|4096">Legends Z-A</option>
+    </optgroup>
+    <optgroup label="Other">
+      <option value="custom2">Custom…</option>
+    </optgroup>
+  </select>
+  <input id="nCustom2" class="hide" type="number" placeholder="1 in how many?" style="margin-top:8px;width:100%;box-sizing:border-box"></div></div>
+  <div style="display:flex;gap:10px"><div style="flex:1;min-width:0"><label>Game / odds</label>
+<select id="nOdds3" style="width:100%;box-sizing:border-box">
+    <option value="same">Same as first</option>
+    <optgroup label="Gold, Silver &amp; Crystal">
+      <option value="Gold/Silver/Crystal|8192">Gold / Silver / Crystal</option><option value="Gold/Silver/Crystal|64">Gold / Silver / Crystal · Shiny parent breeding 1/64</option>
+    </optgroup>
+    <optgroup label="Ruby, Sapphire &amp; Emerald">
+      <option value="Ruby/Sapphire/Emerald|8192">Ruby / Sapphire / Emerald</option>
+    </optgroup>
+    <optgroup label="FireRed &amp; LeafGreen">
+      <option value="FRLG|8192">FireRed/LeafGreen</option>
+    </optgroup>
+    <optgroup label="Diamond, Pearl &amp; Platinum">
+      <option value="Diamond/Pearl/Platinum|8192">Diamond / Pearl / Platinum</option>
+      <option value="Diamond/Pearl/Platinum|1638">Diamond / Pearl / Platinum · Masuda 1/1638</option><option value="Diamond/Pearl/Platinum|200">Diamond / Pearl / Platinum · Poké Radar chain 40 1/200</option>
+    </optgroup>
+    <optgroup label="HeartGold &amp; SoulSilver">
+      <option value="HGSS|8192">HeartGold / SoulSilver</option>
+      <option value="HGSS|1638">HeartGold / SoulSilver · Masuda 1/1638</option>
+    </optgroup>
+    <optgroup label="Black &amp; White">
+      <option value="Black/White|8192">Black / White</option>
+      <option value="Black/White|1638">Black / White · Masuda 1/1638</option>
+    </optgroup>
+    <optgroup label="Black 2 &amp; White 2">
+      <option value="Black 2/White 2|8192">Black 2 / White 2</option>
+      <option value="Black 2/White 2|2731">Black 2 / White 2 · Shiny Charm 1/2731</option>
+      <option value="Black 2/White 2|1365">Black 2 / White 2 · Masuda 1/1365</option>
+      <option value="Black 2/White 2|1024">Black 2 / White 2 · Masuda + Charm 1/1024</option>
+    </optgroup>
+    <optgroup label="X &amp; Y">
+      <option value="X/Y|4096">X / Y</option>
+      <option value="X/Y|1365">X / Y · Shiny Charm 1/1365</option>
+      <option value="X/Y|683">X / Y · Masuda 1/683</option>
+      <option value="X/Y|512">X / Y · Masuda + Charm 1/512</option><option value="X/Y|819">X / Y · Friend Safari 1/819</option><option value="X/Y|585">X / Y · Friend Safari + Charm 1/585</option><option value="X/Y|100">X / Y · Chain fishing 20+ 1/100</option><option value="X/Y|99">X / Y · Poké Radar chain 40 1/99</option>
+    </optgroup>
+    <optgroup label="Omega Ruby &amp; Alpha Sapphire">
+      <option value="ORAS|4096">Omega Ruby / Alpha Sapphire</option>
+      <option value="ORAS|1365">Omega Ruby / Alpha Sapphire · Shiny Charm 1/1365</option>
+      <option value="ORAS|683">Omega Ruby / Alpha Sapphire · Masuda 1/683</option>
+      <option value="ORAS|512">Omega Ruby / Alpha Sapphire · Masuda + Charm 1/512</option><option value="ORAS|100">Omega Ruby / Alpha Sapphire · Chain fishing 20+ 1/100</option>
+    </optgroup>
+    <optgroup label="Sun &amp; Moon">
+      <option value="Sun/Moon|4096">Sun / Moon</option>
+      <option value="Sun/Moon|1365">Sun / Moon · Shiny Charm 1/1365</option>
+      <option value="Sun/Moon|683">Sun / Moon · Masuda 1/683</option>
+      <option value="Sun/Moon|512">Sun / Moon · Masuda + Charm 1/512</option><option value="Sun/Moon|315">Sun / Moon · SOS chain 31+ 1/315</option><option value="Sun/Moon|273">Sun / Moon · SOS chain 31+ + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Ultra Sun &amp; Ultra Moon">
+      <option value="USUM|4096">Ultra Sun / Ultra Moon</option>
+      <option value="USUM|1365">Ultra Sun / Ultra Moon · Shiny Charm 1/1365</option>
+      <option value="USUM|683">Ultra Sun / Ultra Moon · Masuda 1/683</option>
+      <option value="USUM|512">Ultra Sun / Ultra Moon · Masuda + Charm 1/512</option><option value="USUM|315">Ultra Sun / Ultra Moon · SOS chain 31+ 1/315</option><option value="USUM|273">Ultra Sun / Ultra Moon · SOS chain 31+ + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Let's Go Pikachu &amp; Eevee">
+      <option value="Let's Go|4096">Let's Go</option>
+      <option value="Let's Go|1365">Let's Go · Shiny Charm 1/1365</option><option value="Let's Go|315">Let's Go · Catch combo 31+ + Lure 1/315</option><option value="Let's Go|273">Let's Go · Catch combo 31+ + Lure + Charm 1/273</option>
+    </optgroup>
+    <optgroup label="Sword &amp; Shield">
+      <option value="Sword/Shield|4096">Sword / Shield</option>
+      <option value="Sword/Shield|1365">Sword / Shield · Shiny Charm 1/1365</option>
+      <option value="Sword/Shield|683">Sword / Shield · Masuda 1/683</option>
+      <option value="Sword/Shield|512">Sword / Shield · Masuda + Charm 1/512</option><option value="Sword/Shield|683">Sword / Shield · 500+ battled 1/683</option><option value="Sword/Shield|512">Sword / Shield · 500+ battled + Charm 1/512</option><option value="Sword/Shield|300">Sword / Shield · Dynamax Adventure 1/300</option><option value="Sword/Shield|100">Sword / Shield · Dynamax Adventure + Charm 1/100</option>
+    </optgroup>
+    <optgroup label="Brilliant Diamond &amp; Shining Pearl">
+      <option value="BDSP|4096">Brilliant Diamond / Shining Pearl</option>
+      <option value="BDSP|1365">Brilliant Diamond / Shining Pearl · Shiny Charm 1/1365</option>
+      <option value="BDSP|683">Brilliant Diamond / Shining Pearl · Masuda 1/683</option>
+      <option value="BDSP|512">Brilliant Diamond / Shining Pearl · Masuda + Charm 1/512</option><option value="BDSP|99">Brilliant Diamond / Shining Pearl · Poké Radar chain 40 1/99</option>
+    </optgroup>
+    <optgroup label="Legends: Arceus">
+      <option value="Legends Arceus|4096">Legends Arceus</option>
+      <option value="Legends Arceus|2048">Legends Arceus · Dex research 10 1/2048</option><option value="Legends Arceus|1024">Legends Arceus · Perfect dex 1/1024</option><option value="Legends Arceus|585">Legends Arceus · Perfect dex + Charm 1/585</option><option value="Legends Arceus|158">Legends Arceus · Mass outbreak 1/158</option><option value="Legends Arceus|128">Legends Arceus · Mass outbreak + Perfect + Charm 1/128</option><option value="Legends Arceus|315">Legends Arceus · Massive outbreak 1/315</option><option value="Legends Arceus|216">Legends Arceus · Massive outbreak + Perfect + Charm 1/216</option>
+    </optgroup>
+    <optgroup label="Scarlet &amp; Violet">
+      <option value="Scarlet/Violet|4096" selected>Scarlet / Violet</option>
+      <option value="Scarlet/Violet|1365">Scarlet / Violet · Shiny Charm 1/1365</option>
+      <option value="Scarlet/Violet|1024">Scarlet / Violet · Sparkling Power 3 1/1024</option>
+      <option value="Scarlet/Violet|683">Scarlet / Violet · Sparkling 3 + Charm 1/683</option>
+      <option value="Scarlet/Violet|683">Scarlet / Violet · Masuda 1/683</option>
+      <option value="Scarlet/Violet|512">Scarlet / Violet · Masuda + Charm 1/512</option><option value="Scarlet/Violet|1365">Scarlet / Violet · Outbreak 60+ 1/1365</option><option value="Scarlet/Violet|819">Scarlet / Violet · Outbreak 60+ + Charm 1/819</option><option value="Scarlet/Violet|512">Scarlet / Violet · Outbreak 60+ + Sparkling 3 + Charm 1/512</option>
+    </optgroup>
+    <optgroup label="Legends: Z-A">
+      <option value="Legends Z-A|4096">Legends Z-A</option>
+    </optgroup>
+    <optgroup label="Other">
+      <option value="custom3">Custom…</option>
+    </optgroup>
+  </select>
+  <input id="nCustom3" class="hide" type="number" placeholder="1 in how many?" style="margin-top:8px;width:100%;box-sizing:border-box"></div><div style="flex:1;min-width:0"></div></div>
   <label>Starting count</label><input id="nStart" type="number" value="0">
   <div class="row"><button type="button" onclick="hideEl('newSheet')">Cancel</button><button type="button" class="pri" onclick="createHunt()">Start Hunt</button></div>
 </div></div>
@@ -380,20 +681,27 @@ function fmtT(ms){const t=Math.floor(ms/1000),p=n=>String(n).padStart(2,'0');ret
 function ago(ms){const m=Math.floor(ms/60000);if(m<1)return 'just now';if(m<60)return m+'m';const h=Math.floor(m/60);if(h<24)return h+'h '+(m%60)+'m';return Math.floor(h/24)+'d '+(h%24)+'h'}
 setInterval(()=>{const h=cur();if(h&&!$('hunt').classList.contains('hide')){$('time').textContent=fmtT(h.time||0);$('stLast').textContent=h.lastInc?ago(Date.now()-h.lastInc):'—'}},1000);
 $('nOdds').onchange=()=>$('nCustom').classList.toggle('hide',$('nOdds').value!=='custom');
-function openNew(){showEl('newSheet');setTimeout(()=>$('nName').focus(),50)}
+$('nOdds3').onchange=()=>$('nCustom3').classList.toggle('hide',$('nOdds3').value!=='custom3');
+$('nOdds2').onchange=()=>$('nCustom2').classList.toggle('hide',$('nOdds2').value!=='custom2');
+function openNew(){showEl('newSheet');0}
 function createHunt(){
   const name=$('nName').value.trim();if(!name){$('nName').focus();return}
-  let o=$('nOdds').value==='custom'?parseInt($('nCustom').value):parseInt($('nOdds').value);if(!o||o<2)o=8192;
-  const h={id:Date.now(),name,odds:o,count:Math.max(0,parseInt($('nStart').value)||0),time:0,mode:'text',kw:'badges'};
-  S.hunts.push(h);save();hideEl('newSheet');$('nName').value='';openHunt(h.id);
+  const ov=$('nOdds').value,parts=ov.split('|'),game=ov==='custom'?'':parts[0];
+  let o=ov==='custom'?parseInt($('nCustom').value):parseInt(parts[1]);if(!o||o<2)o=8192;
+  const name2=$('nName2').value.trim();const ov2=$('nOdds2').value;let game2='',odds2=0;if(ov2==='custom2'){odds2=parseInt($('nCustom2').value)||0}else if(ov2!=='same'){const q=ov2.split('|');game2=q[0];odds2=parseInt(q[1])||0}if(odds2<2)odds2=0;
+  const ov3=$('nOdds3').value;let game3='',odds3=0;if(ov3==='custom3'){odds3=parseInt($('nCustom3').value)||0}else if(ov3!=='same'){const q=ov3.split('|');game3=q[0];odds3=parseInt(q[1])||0}if(odds3<2)odds3=0;
+  const name3=$('nName3').value.trim();const h={id:Date.now(),name,name2,name3,game,game2,odds2,game3,odds3,odds:o,count:Math.max(0,parseInt($('nStart').value)||0),time:0,mode:'text',kw:(!game||/^(FRLG|Ruby|Diamond|HGSS)/.test(game))?'badges':'wild'};
+  S.hunts.push(h);save();hideEl('newSheet');$('nName').value='';$('nName2').value='';$('nName3').value='';$('nOdds2').value='Sword/Shield|4096';$('nCustom2').classList.add('hide');$('nOdds3').value='Scarlet/Violet|4096';$('nCustom3').classList.add('hide');openHunt(h.id);
 }
 function openHunt(id){if(!cur()||$('hunt').classList.contains('hide'))S.cur=id;save();showShiny=0;hideEl('home');showEl('hunt');renderHunt();window.scrollTo(0,0)}
 function goHome(){stopDet();hideEl('menu');hideEl('hunt');showEl('home');renderHome()}
 function setShiny(v){showShiny=v;renderHunt()}
+function nms(h){return [h.name,h.name2,h.name3].filter(Boolean)}
+function both(h){return nms(h).join(' & ')}
 function renderHome(){
   $('list').innerHTML='';
   S.hunts.forEach(h=>{const b=document.createElement('button');b.className='item';
-    b.innerHTML='<img src="'+img(h.name,0)+'" alt="" onerror="this.style.visibility=\'hidden\'"><div><b>'+esc(h.name)+'</b><br><span style="color:var(--mut);font-size:13px">1/'+h.odds.toLocaleString()+'</span></div><span class="c">'+h.count.toLocaleString()+'</span>';
+    b.innerHTML='<img src="'+img(h.name,0)+'" alt="" onerror="this.style.visibility=\'hidden\'"><div><b>'+esc(both(h))+'</b><br><span style="color:var(--mut);font-size:13px">'+(h.game?esc(h.game)+' · ':'')+'1/'+h.odds.toLocaleString()+(h.odds2?' + '+(h.game2?esc(h.game2)+' · ':'')+'1/'+h.odds2.toLocaleString():'')+(h.odds3?' + '+(h.game3?esc(h.game3)+' · ':'')+'1/'+h.odds3.toLocaleString():'')+'</span></div><span class="c">'+h.count.toLocaleString()+'</span>';
     b.onclick=()=>openHunt(h.id);$('list').appendChild(b)});
   $('empty').classList.toggle('hide',S.hunts.length>0);
   $('dex').innerHTML=S.dex.map(d=>'<div><img src="'+img(d.name,1)+'" alt="" onerror="this.style.visibility=\'hidden\'"><br>'+esc(d.name)+'<br><span style="color:var(--mut)">'+d.count.toLocaleString()+' · '+d.date+'</span></div>').join('');
@@ -401,19 +709,22 @@ function renderHome(){
 }
 function renderHunt(){const h=cur();if(!h)return goHome();setWalker(h.name);
   $('hTitle').textContent=h.name+' Hunt';$('hName').textContent=h.name;
-  $('count').textContent=h.count.toLocaleString();$('camCount').textContent=h.count.toLocaleString();$('camName').textContent=h.name+' · 1/'+h.odds.toLocaleString();$('time').textContent=fmtT(h.time||0);
-  const p=(1-Math.pow(1-1/h.odds,h.count))*100;
+  $('count').textContent=h.count.toLocaleString();$('camCount').textContent=h.count.toLocaleString();$('camName').textContent=both(h)+' · 1/'+h.odds.toLocaleString();$('time').textContent=fmtT(h.time||0);
+  const p=(1-Math.pow((1-1/h.odds)*(h.odds2?(1-1/h.odds2):1)*(h.odds3?(1-1/h.odds3):1),h.count))*100;
   $('odds').textContent=p.toFixed(1)+'%';$('oddsPct').textContent=(p<10?p.toFixed(2):p.toFixed(1))+'%';$('oddsFill').style.width=Math.min(100,p)+'%';$('stRate').textContent=h.odds.toLocaleString();
   if(!h.started){const n=+h.id;h.started=(n>1e12&&n<4e12)?n:Date.now();save()}$('stStart').textContent=new Date(h.started).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});$('stLast').textContent=h.lastInc?ago(Date.now()-h.lastInc):'—';
-  [['spr',0],['spr2',1]].forEach(([id,sh])=>{const e=$(id),src=img3(h.name,sh);if(e.dataset.p!==src){e.dataset.p=src;e.dataset.fb=img2(h.name,sh);e.style.visibility='visible';e.src=src}});
+  const ns=nms(h);document.querySelectorAll('.sprs').forEach(x=>x.classList.remove('three'));[['spr',0],['spr2',1],['spr3',2]].forEach(([id,sh])=>{const e=$(id);if(sh===2||(sh===1&&ns.length>1)){e.style.display='none';e.dataset.p='';return}e.style.display='';const nm=h.name,s2=ns.length>1?1:sh;const src=img3(nm,s2);if(e.dataset.p!==src){e.dataset.p=src;e.dataset.fb=img2(nm,s2);e.style.visibility='visible';e.src=src}});
 }
 function add(d,auto){if(d>0)setTimeout(hopWalker,30);const h=cur();if(!h)return;h.count=Math.max(0,h.count+d);if(d>0)h.lastInc=Date.now();save();renderHunt();
   if(d>0){const c=$('count');c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');const cc=$('camCount');cc.classList.remove('pop');void cc.offsetWidth;cc.classList.add('pop');if(navigator.vibrate)navigator.vibrate(60)}
 }
 function toggleMenu(){$('menu').classList.toggle('hide')}
-function resetCount(){hideEl('menu');const h=cur();if(h&&confirm('Set '+h.name+' back to 0?')){h.count=0;h.time=0;save();renderHunt()}}
-function delHunt(){hideEl('menu');const h=cur();if(h&&confirm('Delete the '+h.name+' hunt?')){S.hunts=S.hunts.filter(x=>x!==h);S.cur=null;save();goHome()}}
-function foundIt(){hideEl('menu');const h=cur();if(!h||!confirm('Found a shiny '+h.name+'? ✨'))return;
+function resetCount(){hideEl('menu');const h=cur();if(h&&confirm('Set '+both(h)+' back to 0?')){h.count=0;h.time=0;save();renderHunt()}}
+function delHunt(){hideEl('menu');const h=cur();if(h&&confirm('Delete the '+both(h)+' hunt?')){S.hunts=S.hunts.filter(x=>x!==h);S.cur=null;save();goHome()}}
+function foundIt(){hideEl('menu');const h=cur();if(!h)return;let nm=h.name;
+  const ns=nms(h);if(ns.length>1){nm=null;for(const x of ns){if(confirm('Found a shiny '+x+'? ✨\n(Tap Cancel if it was a different one)')){nm=x;break}}if(!nm)return}
+  else if(!confirm('Found a shiny '+h.name+'? ✨'))return;
+  h.name=nm;
   stopDet();S.dex.unshift({name:h.name,count:h.count,date:new Date().toLocaleDateString()});
   S.hunts=S.hunts.filter(x=>x!==h);S.cur=null;save();goHome();celebrate(h)}
 function openSettings(){const h=cur();$('sOdds').value=h?h.odds:8192;$('sens').value=S.sens;$('sGap').value=S.gap;showEl('setSheet')}
@@ -599,7 +910,7 @@ function draw(t){g.clearRect(0,0,W,H);const ts=t/1000;
   g.globalAlpha=1;requestAnimationFrame(draw)}requestAnimationFrame(draw)})();
 renderHome();
 
-function setWalker(n){const w=$('walkerIn');if(!w)return;const s1='https://play.pokemonshowdown.com/sprites/ani-shiny/'+slug(n).replace(/-/g,'')+'.gif';if(w.dataset.p===s1)return;w.dataset.p=s1;w.onerror=function(){if(!this.dataset.f){this.dataset.f=1;this.src=img3(n,1)}else this.style.visibility='hidden'};w.dataset.f='';w.style.visibility='visible';w.src=s1}
+function setWalker(n){const w=$('walkerIn');if(!w)return;const s1='https://play.pokemonshowdown.com/sprites/gen5ani-shiny/'+slug(n).replace(/-/g,'')+'.gif';if(w.dataset.p===s1)return;w.dataset.p=s1;w.onerror=function(){if(!this.dataset.f){this.dataset.f=1;this.src=img3(n,1)}else this.style.visibility='hidden'};w.dataset.f='';w.style.visibility='visible';w.src=s1}
 function hopWalker(){const w=$('walker');if(!w)return;w.classList.remove('hop');void w.offsetWidth;w.classList.add('hop');const r=w.getBoundingClientRect();for(let i=0;i<4;i++){const t=document.createElement('span');t.className='tw';t.textContent='✦';t.style.left=(r.left+10+Math.random()*34)+'px';t.style.animationDelay=(i*.12)+'s';$('walk').appendChild(t);setTimeout(()=>t.remove(),2200)}}
 setInterval(()=>{const wk=$('walk');if(!wk||$('hunt').classList.contains('hide'))return;const r=$('walker').getBoundingClientRect();const t=document.createElement('span');t.className='tw';t.textContent='✧';t.style.left=(r.left+20)+'px';wk.appendChild(t);setTimeout(()=>t.remove(),1800)},900);
 
@@ -617,6 +928,51 @@ const fw=setInterval(()=>{boom();if(++k%3==0)conf(40)},700);
 d.querySelector('button').onclick=()=>{on=false;clearInterval(fw);d.remove()}}
 
 (function(){const N=["bulbasaur", "ivysaur", "venusaur", "charmander", "charmeleon", "charizard", "squirtle", "wartortle", "blastoise", "caterpie", "metapod", "butterfree", "weedle", "kakuna", "beedrill", "pidgey", "pidgeotto", "pidgeot", "rattata", "raticate", "spearow", "fearow", "ekans", "arbok", "pikachu", "raichu", "sandshrew", "sandslash", "nidoranf", "nidorina", "nidoqueen", "nidoranm", "nidorino", "nidoking", "clefairy", "clefable", "vulpix", "ninetales", "jigglypuff", "wigglytuff", "zubat", "golbat", "oddish", "gloom", "vileplume", "paras", "parasect", "venonat", "venomoth", "diglett", "dugtrio", "meowth", "persian", "psyduck", "golduck", "mankey", "primeape", "growlithe", "arcanine", "poliwag", "poliwhirl", "poliwrath", "abra", "kadabra", "alakazam", "machop", "machoke", "machamp", "bellsprout", "weepinbell", "victreebel", "tentacool", "tentacruel", "geodude", "graveler", "golem", "ponyta", "rapidash", "slowpoke", "slowbro", "magnemite", "magneton", "farfetchd", "doduo", "dodrio", "seel", "dewgong", "grimer", "muk", "shellder", "cloyster", "gastly", "haunter", "gengar", "onix", "drowzee", "hypno", "krabby", "kingler", "voltorb", "electrode", "exeggcute", "exeggutor", "cubone", "marowak", "hitmonlee", "hitmonchan", "lickitung", "koffing", "weezing", "rhyhorn", "rhydon", "chansey", "tangela", "kangaskhan", "horsea", "seadra", "goldeen", "seaking", "staryu", "starmie", "mrmime", "scyther", "jynx", "electabuzz", "magmar", "pinsir", "tauros", "magikarp", "gyarados", "lapras", "ditto", "eevee", "vaporeon", "jolteon", "flareon", "porygon", "omanyte", "omastar", "kabuto", "kabutops", "aerodactyl", "snorlax", "articuno", "zapdos", "moltres", "dratini", "dragonair", "dragonite", "mewtwo", "mew"];const P=document.getElementById('parade');if(!P)return;const R=5,L=Math.ceil(N.length/R),sp=[60,52,68,56,64];let out='';for(let r=0;r<R;r++){const part=N.slice(r*L,(r+1)*L);let h='';for(let k=0;k<2;k++)for(const n of part)h+='<img alt="" loading="lazy" src="https://play.pokemonshowdown.com/sprites/gen5-shiny/'+n+'.png">';out+='<div class="pRow'+(r%2?' rev':'')+'"><div class="pTrack" style="animation-duration:'+sp[r]+'s">'+h+'</div></div>'}P.innerHTML=out})();
+</script>
+<script>
+// v56: tap anywhere on the hunt screen adds 1 (buttons, menus and camera still work normally)
+(function(){const hunt=document.getElementById('hunt');if(!hunt)return;
+hunt.style.touchAction='manipulation';
+hunt.addEventListener('click',function(e){
+  if(e.target.closest('button,a,input,select,textarea,label,.menu,#camArea,.top,.fab'))return;
+  const m=document.getElementById('menu');if(m&&!m.classList.contains('hide'))return;
+  add(1);
+  const c=document.getElementById('count');if(c&&c.animate)c.animate([{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:180});
+});
+const tip=document.createElement('div');tip.id='tapTip';tip.textContent='Tap anywhere to add 1';
+/* v67: hint text removed at user's request (tapping still adds 1) */
+})();
+</script>
+<script>
+// v58: shiny friends parade (Bulbasaur, Squirtle, Pikachu, Eevee, Scarlet/Violet starters)
+(function(){const wk=document.getElementById('walk');if(!wk)return;
+const B='https://play.pokemonshowdown.com/sprites/';
+// top lane: your hunt Pokemon, Bulbasaur, Squirtle, Pikachu. Bottom lane walks right under them:
+// Quaxly under your Pokemon, Fuecoco under Bulbasaur, Sprigatito under Squirtle, Eevee walks right behind Pikachu in the top lane.
+const pals=[]; // v67: starters removed at user's request; only your hunt Pokemon walks
+const gap=4.6;
+pals.forEach(([n,ani,slot,lane],i)=>{const d=document.createElement('div');d.className='pal'+(ani?'':' still')+(lane?' low':' high');
+  const dl=-(slot*gap)+'s';d.style.setProperty('animation-delay',dl,'important');
+  const im=document.createElement('img');im.alt='';im.style.setProperty('animation-delay',(i*0.1)+'s','important');
+  im.src=B+(ani?'gen5ani-shiny/'+n+'.gif':'ani-shiny/'+n+'.gif');
+  im.onerror=function(){if(!this.dataset.f){this.dataset.f=1;this.src=B+'gen5-shiny/'+n+'.png'}else d.remove()};
+  d.appendChild(im);wk.appendChild(d)});
+})();
+</script>
+<script>
+// v61: put every walker in one group that walks across, turns around, and walks back
+(function(){const wk=document.getElementById('walk');if(!wk)return;
+const go=document.createElement('div');go.id='pGo';const fl=document.createElement('div');fl.id='pFlip';go.appendChild(fl);wk.appendChild(go);
+const W=58;
+const wl=document.getElementById('walker');if(wl){wl.style.setProperty('left','0px','important');fl.appendChild(wl)}
+const slots={bulbasaur:1,squirtle:2,pikachu:3,eevee:4,quaxly:0,fuecoco:1,sprigatito:2,turtwig:3,chimchar:4,piplup:5};
+wk.querySelectorAll('.pal').forEach(d=>{const im=d.querySelector('img');const m=im&&im.src.match(/\/([a-z]+)\.(gif|png)$/);const n=m?m[1]:'';
+  d.style.setProperty('left',((slots[n]||0)*W)+'px','important');fl.appendChild(d)});
+})();
+</script>
+
+<script>/* v66: FireRed/LeafGreen Pokémon (National Dex 1-386) for the Create Hunt box */
+(function(){const N=["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidoran-F", "Nidorina", "Nidoqueen", "Nidoran-M", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetch’d", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "Mr. Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew", "Chikorita", "Bayleef", "Meganium", "Cyndaquil", "Quilava", "Typhlosion", "Totodile", "Croconaw", "Feraligatr", "Sentret", "Furret", "Hoothoot", "Noctowl", "Ledyba", "Ledian", "Spinarak", "Ariados", "Crobat", "Chinchou", "Lanturn", "Pichu", "Cleffa", "Igglybuff", "Togepi", "Togetic", "Natu", "Xatu", "Mareep", "Flaaffy", "Ampharos", "Bellossom", "Marill", "Azumarill", "Sudowoodo", "Politoed", "Hoppip", "Skiploom", "Jumpluff", "Aipom", "Sunkern", "Sunflora", "Yanma", "Wooper", "Quagsire", "Espeon", "Umbreon", "Murkrow", "Slowking", "Misdreavus", "Unown", "Wobbuffet", "Girafarig", "Pineco", "Forretress", "Dunsparce", "Gligar", "Steelix", "Snubbull", "Granbull", "Qwilfish", "Scizor", "Shuckle", "Heracross", "Sneasel", "Teddiursa", "Ursaring", "Slugma", "Magcargo", "Swinub", "Piloswine", "Corsola", "Remoraid", "Octillery", "Delibird", "Mantine", "Skarmory", "Houndour", "Houndoom", "Kingdra", "Phanpy", "Donphan", "Porygon2", "Stantler", "Smeargle", "Tyrogue", "Hitmontop", "Smoochum", "Elekid", "Magby", "Miltank", "Blissey", "Raikou", "Entei", "Suicune", "Larvitar", "Pupitar", "Tyranitar", "Lugia", "Ho-Oh", "Celebi", "Treecko", "Grovyle", "Sceptile", "Torchic", "Combusken", "Blaziken", "Mudkip", "Marshtomp", "Swampert", "Poochyena", "Mightyena", "Zigzagoon", "Linoone", "Wurmple", "Silcoon", "Beautifly", "Cascoon", "Dustox", "Lotad", "Lombre", "Ludicolo", "Seedot", "Nuzleaf", "Shiftry", "Taillow", "Swellow", "Wingull", "Pelipper", "Ralts", "Kirlia", "Gardevoir", "Surskit", "Masquerain", "Shroomish", "Breloom", "Slakoth", "Vigoroth", "Slaking", "Nincada", "Ninjask", "Shedinja", "Whismur", "Loudred", "Exploud", "Makuhita", "Hariyama", "Azurill", "Nosepass", "Skitty", "Delcatty", "Sableye", "Mawile", "Aron", "Lairon", "Aggron", "Meditite", "Medicham", "Electrike", "Manectric", "Plusle", "Minun", "Volbeat", "Illumise", "Roselia", "Gulpin", "Swalot", "Carvanha", "Sharpedo", "Wailmer", "Wailord", "Numel", "Camerupt", "Torkoal", "Spoink", "Grumpig", "Spinda", "Trapinch", "Vibrava", "Flygon", "Cacnea", "Cacturne", "Swablu", "Altaria", "Zangoose", "Seviper", "Lunatone", "Solrock", "Barboach", "Whiscash", "Corphish", "Crawdaunt", "Baltoy", "Claydol", "Lileep", "Cradily", "Anorith", "Armaldo", "Feebas", "Milotic", "Castform", "Kecleon", "Shuppet", "Banette", "Duskull", "Dusclops", "Tropius", "Chimecho", "Absol", "Wynaut", "Snorunt", "Glalie", "Spheal", "Sealeo", "Walrein", "Clamperl", "Huntail", "Gorebyss", "Relicanth", "Luvdisc", "Bagon", "Shelgon", "Salamence", "Beldum", "Metang", "Metagross", "Regirock", "Regice", "Registeel", "Latias", "Latios", "Kyogre", "Groudon", "Rayquaza", "Jirachi", "Deoxys"];const dl=document.getElementById("pkList");if(dl)dl.innerHTML=N.map(n=>"<option value=\""+n+"\">").join("")})();
 </script>
 </body>
 </html>
